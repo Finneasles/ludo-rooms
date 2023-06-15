@@ -12,11 +12,17 @@ A ludo game rooms handler implemented using web-sockets and Typescript to handle
 
 ## Getting Started
 
-First, run the server:
+First, clone the the [server repository](https://github.com/finneasles/ludo-rooms-server).
 
 ```bash
-cd server
+git clone https://github.com/finneasles/ludo-game-server.git
 ```
+
+```bash
+cd ludo-game-server
+```
+
+Then, run the server:
 
 ```bash
 npm run dev
@@ -24,7 +30,7 @@ npm run dev
 yarn dev
 ```
 
-Then, run the client:
+Navigate back to the current repository, then run the client to test the server:
 
 ```bash
 npm run dev
