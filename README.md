@@ -1,5 +1,7 @@
 # Ludo-rooms
 
+![Thumbnail](/public/images/thumb.png)
+
 A ludo game rooms handler implemented using web-sockets and Typescript to handle board logic and client communication.
 
 ## Features
