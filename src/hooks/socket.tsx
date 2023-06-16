@@ -29,7 +29,7 @@ export const useGameSocket = ({
     setRooms(e);
   });
 
-  socket.on("receiveMessages", (e) => {
+  socket.on("receiveMessage", (e) => {
     setMessages([...messages, e]);
   });
 
@@ -50,8 +50,10 @@ export const useGameSocket = ({
     createRoom,
     setCurMsg,
     joinRoom,
+    messages,
     curRoom,
     curMsg,
+    socket,
     rooms,
   };
 };
