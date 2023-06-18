@@ -21,7 +21,7 @@ export default function Home() {
               joinRoom(room.id);
             }}
           >
-            {room.name}
+            {room.options.name}
           </li>
         ))}
       </ul>
