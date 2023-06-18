@@ -11,6 +11,6 @@ export interface GameRoomOption {
 
 export interface GameRoom {
   id?: string;
-  name: string;
+  name?: string;
   options?: GameRoomOption[];
 }
