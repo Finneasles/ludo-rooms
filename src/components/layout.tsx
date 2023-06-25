@@ -10,9 +10,11 @@ interface Circle {
 
 export const Layout = ({children}) => {
   return (
-    <div>
+    <div className="h-screen">
       <Navbar />
+      <div className="relative pt-[80px] h-full">
       {children}
+      </div>
     </div>
   );
 };

@@ -8,15 +8,11 @@ export const ChatBox = ({
   handleInputChange,
 }) => {
   return (
-<aside
-      id="chat-button-sidebar"
-      aria-label="Sidebar"
-      className="fixed top-0 right-0 z-40 w-96 h-full transition-transform  overflow-y-auto flex flex-col flex-grow max-w-xl bg-white shadow-xl overflow-hidden"
-    >
-      <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
+    <div className="fixed flex flex-col pt-[80px] h-full w-96 right-0 overflow-y-auto top-0 bg-gray-300">
+      <div className="flex-grow overflow-auto">
         {messages.map((msg) => {
           return (
-            <>
+            <div key={msg.id}>
               {msg.author?.id !== socket.id ? (
                 <div
                   key={msg.id}
@@ -24,7 +20,7 @@ export const ChatBox = ({
                 >
                   <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
                   <div>
-                    <div className="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
+                    <div className="bg-green-600 p-3 rounded-r-lg rounded-bl-lg">
                       <p className="text-sm">
                         {msg.author.name}
                         {": "}
@@ -53,12 +49,11 @@ export const ChatBox = ({
                   <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
                 </div>
               )}
-            </>
+            </div>
           );
         })}
       </div>
-
-      <div className="bg-gray-300 p-4">
+      <div className="bg-gray-400 p-4">
         <input
           className="flex text-black items-center h-10 w-full rounded px-3 text-sm"
           type="text"
@@ -68,6 +63,6 @@ export const ChatBox = ({
           placeholder="Type your message…"
         />
       </div>
-    </aside>
+    </div>
   );
 };
