@@ -16,10 +16,11 @@ export default function Home() {
     messages,
     curMsg,
     setCurMsg,
+    readyUp,
     sendMessage,
-  } = useGameSocket({
+  } = useGameSocket(
     router,
-  });
+  );
 
   const handleInputChange = (event) => {
     setCurMsg(event.target.value);
@@ -33,10 +34,7 @@ export default function Home() {
   };
   return (
     <Layout>
-      <main
-        className={`flex min-h-screen flex-col items-center justify-between ${inter.className}`}
-      >
-        <div className="w-full flex justify-center items-center h-screen bg-gray-200">
+        <div className="w-full flex justify-center items-center h-full bg-gray-200">
           {JSON.stringify(curRoom)}
           <button
             onClick={() => {
@@ -45,12 +43,18 @@ export default function Home() {
           >
             Leave Room
           </button>
+          <button
+            onClick={() => {
+              readyUp();
+            }}
+          >
+            Ready
+          </button>
           <GameBoard />
         </div>
         <ChatBox
           {...{ socket, messages, curMsg, handleKeyDown, handleInputChange }}
         />
-      </main>
     </Layout>
   );
 }

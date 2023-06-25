@@ -7,35 +7,33 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const router = useRouter();
-  const { rooms, createRoom, joinRoom } = useGameSocket({ router });
+  const { rooms, createRoom, joinRoom } = useGameSocket(router);
 
   return (
     <Layout>
-      <main
-        className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-      >
-        <ul>
-          {rooms.map((room) => (
-            <li
-              className="cursor-pointer"
-              key={room.id}
-              onClick={() => {
-                joinRoom(room.id);
-              }}
-            >
-              {room.options.name}
-            </li>
-          ))}
-        </ul>
+      <div className="h-[300px] w-96 right-0 overflow-y-auto top-0 bg-gray-300">
+        <div className="flex flex-col flex-grow overflow-auto space-y-2">
+        {rooms.map((room) => (
+          <div
+            className="cursor-pointer bg-red-200 w-full h-12"
+            key={room.id}
+            onClick={() => {
+              joinRoom(room.id);
+            }}
+          >
+            {room.options.name}
+          </div>
+        ))}
 
-        <button
-          onClick={() => {
-            createRoom({ name: "Hello World!" });
-          }}
-        >
-          Create Room
-        </button>
-      </main>
+        </div>
+      </div>
+      <button
+        onClick={() => {
+          createRoom({ name: "Hello World!" });
+        }}
+      >
+        Create Room
+      </button>
     </Layout>
   );
 }
