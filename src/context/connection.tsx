@@ -1,8 +1,8 @@
 import useSocket, { Socket } from "react-io-client";
-import { createContext, useEffect } from "react";
+import React, { createContext, useEffect } from "react";
 
 export const Connection = createContext<{
-  socket: Socket | null ;
+  socket: Socket | null;
 }>({ socket: null });
 
 export function Provider({ children }: { children: React.ReactNode }) {
