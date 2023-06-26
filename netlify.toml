@@ -1,0 +1,24 @@
+[[redirects]]
+  from = "https://ludantis.netlify.app/*"
+  to = "https://ludantis.com/:splat"
+  status = 301
+  force = true # COMMENT: ensure that we always redirect
+[[redirects]]
+  from = "https://io.ludantis.com/*"
+  to = "https://seal-app-7l7eh.ondigitalocean.app/:splat"
+  status = 200
+  force = true
+  headers = { X-From: "Netlify" }
+[[headers]]
+  for = "*.js" # js files should be set this way
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+[[headers]]
+  for = "*.css" # css files too
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+    
+[[headers]]
+  for = "/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
