@@ -6,7 +6,7 @@ export const Connection = createContext<{
 }>({ socket: null });
 
 export function Provider({ children }: { children: React.ReactNode }) {
-  const [socket] = useSocket(process.env.NEXT_PUBLIC_WEBSOCKET_SERVER, {
+  const [socket] = useSocket(process.env.NEXT_PUBLIC_WEBSOCKET_SERVER || "", {
     query: {},
     autoConnect: false,
     reconnection: false,
