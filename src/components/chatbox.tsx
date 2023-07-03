@@ -1,21 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
+import useGameSocket from "@/hooks/socket";
+import { v4 as uuidv4 } from "uuid";
+
 export const ChatBox = ({
   socket,
-  messages,
-  curMsg,
-  handleKeyDown,
-  handleInputChange,
+  router
 }) => {
+  const { curMsg, messages, setCurMsg, sendMessage } = useGameSocket(router);
+
+  const handleInputChange = (event) => {
+    setCurMsg(event.target.value);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      sendMessage(curMsg);
+      setCurMsg("");
+    }
+  };
+
   return (
-    <div className="fixed flex flex-col pt-[80px] h-full w-96 right-0 overflow-y-auto top-0 bg-gray-300">
+    <div className="flex flex-col flex-grow w-full right-0 overflow-y-auto top-0 bg-gray-300">
       <div className="flex-grow overflow-auto">
         {messages.map((msg) => {
           return (
-            <div key={msg.id}>
+            <div key={uuidv4()}>
               {msg.author?.id !== socket.id ? (
                 <div
-                  key={msg.id}
                   className="flex w-full mt-2 space-x-3 max-w-xs"
                 >
                   <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
