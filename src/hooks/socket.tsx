@@ -5,25 +5,62 @@ import { NextRouter } from "next/router";
 
 export const useGameSocket = (
   router: NextRouter) => {
-  const { socket } = useContext(Connection);
-  const [rooms, setRooms] = useState([]);
+  const {
+    socket,
+    connected,
+    curRoom,
+    isLoading,
+    setIsLoading,
+    setCurRoom,
+    setConnected,
+    rooms,
+    setRooms,
+  } = useContext(Connection);
   const [curMsg, setCurMsg] = useState("");
   const [messages, setMessages] = useState([]);
-  const [curRoom, setCurRoom] = useState({});
+
+
+  useEffect(() => {
+    !socket.connected && socket.connect(); // auto connect re-enabled here
+    if (!socket) return;
+    socket.on("connect", () => {
+      console.log("socket connected", socket);
+      setConnected(true);
+      setTimeout(() => setIsLoading(false), 700);
+      socket.on("disconnect", () => {
+        console.log("socket disconnected");
+        router.push(
+          {
+            pathname: `/`,
+          },
+          undefined,
+          { shallow: true }
+        );
+        setConnected(false);
+      });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connected]);
+
+
+  useEffect(() => {
+    socket.on("updateRoom", (e) => {
+      setCurRoom(e);
+      console.log("Room updated", e);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   useEffect(() => {
     socket.on("intData", (e) => {
       setRooms(e.rooms);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  useEffect(() => {
     socket.on("setRooms", (e) => {
       console.log("Rooms set", e);
       setRooms(e);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -34,13 +71,6 @@ export const useGameSocket = (
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
-  useEffect(() => {
-    socket.on("updateRoom", (e) => {
-      setCurRoom(e);
-      console.log("Room updated", e);
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [curRoom]);
 
   useEffect(() => {
     socket.on("gotoRoom", (e) => {
@@ -53,10 +83,9 @@ export const useGameSocket = (
         undefined,
         { shallow: true }
       );
-      
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [curRoom, router]);
+  }, []);
 
   const createRoom = async (req: GameRoom) => {
     socket.emit("createRoom", req);
@@ -69,7 +98,6 @@ export const useGameSocket = (
   const readyUp = async () => {
     socket.emit("readyUp");
   };
-
 
   const joinRoom = (req: GameRoom) => {
     socket.emit("joinRoom", req);
@@ -84,10 +112,12 @@ export const useGameSocket = (
     createRoom,
     leaveRoom,
     setCurMsg,
+    connected,
+    isLoading,
     joinRoom,
+    curRoom,
     messages,
     readyUp,
-    curRoom,
     curMsg,
     socket,
     rooms,
