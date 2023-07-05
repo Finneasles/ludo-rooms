@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useState } from "react";
 import { GameBoard } from "@/components/gameboard";
 import { ChatBox } from "@/components/chatbox";
 import { Button } from "../button";
@@ -9,10 +9,14 @@ export const Room = (props) => {
   return (
     <div className="h-screen space-x-0 md:space-x-4 flex flex-col md:flex-row justify-center items-center overflow-hidden">
       <div className="bg-red-200 h-[128px] md:h-[512px] w-full md:w-[128px] flex flex-col space-y-4">
-        {props.curRoom.players.map(player =>{
-          return <div key={uuidv4()} className="h-12 w-full bg-yellow-200">
-            {player.name}
-          </div>
+        {props.curRoom.players.map((player) => {
+          return (
+            <div key={uuidv4()} className="h-12 w-full bg-yellow-200">
+              <div>{player.name}</div>
+              <div>{!player.ready ? "Not ready" : "Ready"}</div>
+              <div>{player.role}</div>
+            </div>
+          );
         })}
       </div>
 
@@ -30,29 +34,18 @@ export const Room = (props) => {
           >
             Leave Room
           </Button>
+
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              props.readyUp();
+            }}
+          >
+            {"Ready"}
+          </Button>
         </div>
         <ChatBox {...{ socket: props.socket, router: props.router }} />
       </div>
-
-      {/* <div className="w-full flex justify-center items-center h-full bg-gray-200">
-        {JSON.stringify(props.curRoom)}
-        <button
-          onClick={() => {
-            props.leaveRoom();
-          }}
-        >
-          Leave Room
-        </button>
-        <button
-          onClick={() => {
-            props.readyUp();
-          }}
-        >
-          Ready
-        </button>
-        <GameBoard />
-      </div>
-      <ChatBox {...{ socket: props.socket, router: props.router }} /> */}
     </div>
   );
 };
